@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+        <meta http-equiv="Content-Security-Policy" 
+			  content="default-src *; 
+			  style-src * 'unsafe-inline'; 
+			  script-src * 'unsafe-inline' 'unsafe-eval'
+							http://*.google.com
+                               http://*.gstatic.com
+                               http://*.googleapis.com
+                               http://*.firebaseio.com
+                               https://*.google.com
+                               https://*.gstatic.com
+                               https://*.googleapis.com
+                               https://*.firebaseio.com;                               ;
+			  img-src * data: 'unsafe-inline'; 
+			  connect-src * 'unsafe-inline'; 
+			  frame-src *;" />
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <script type="text/javascript" src="cordova.js"></script>
+        <title>Phonegap Geolocation Test</title>
+        <style>
+			.geoCoord label {display: block; background: #000; color: #fff; padding: 5px 2px;}
+			.pelet button{ width: 100%; max-width: 320px; height: 60px; text-align: center; font-size: 24px; font-family: sans-serif;}
+			#latitude, #longitude {font-size: 24px;}
+			#info p label {width: 200px; color: navy; display: block;}
+			#ecode, #icode {background: maroon; color: #EEE; width: 100%; display: block;}
+        </style>
+    </head>
+    <body>
+		<div class="pelet">
+			<button onClick="cekPos()">C e k</button>
+		</div>
+        <div class="geoCoord">
+			<label>Koordinat Lintang</label><span id='latitude'>0,00</span>
+        </div>
+        <div class='geoCoord'>
+			<label>Koordinat Bujur</label><span id='longitude'>0,00</span>
+        </div>
+        
+        <div id='info'>
+         <p><label>Kode Kegagalan :</label> <span id='ecode'></span></p>
+         <p><label>Info Kegagalan :</label> <span id='icode'></span></p>
+        </div>
+        <div class='pelet'>
+			<button onClick="clearCoords()">Bersihkan</button>
+        </div>
+        <script>
+			document.addEventListener("deviceready", onDeviceReady, false);
+			function onDeviceReady(){
+				
+				alert('perangkat siap');
+				
+				 /*navigator.geolocation.getCurrentPosition(sida,wurung,geopsi);*/
+			}
+			
+			function cekPos(){
+				var geopsi = {
+					enableHighAccuracy: true,
+					timeout : 100000,
+					maximumAge: 3600000
+				}
+				navigator.geolocation.getCurrentPosition(sida,wurung,geopsi);
+			}
+			
+			function sida(posisi){
+				var latit = document.getElementById('latitude');
+				var longi = document.getElementById('longitude');
+				
+				latit.innerHTML = posisi.coords.latitude;
+				longi.innerHTML = posisi.coords.longitude;
+			}
+			
+			function wurung(rusak){
+				var ecode = rusak.code;
+				var mksud = rusak.message;
+				
+				document.getElementById('ecode').innerHTML=ecode;
+				document.getElementById('icode').innerHTML=mksud;
+			}
+			
+			function clearCoords(){
+				var lat = document.getElementById('latitude');
+				var lon = document.getElementById('longitude');
+				lat.innerHTML='0,00';
+				lon.innerHTML='0,00';
+			}
+		</script>
+    </body>
+</html>
